@@ -58,6 +58,7 @@
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --heading: oklch(31.77% 0.048 262.86);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -68,6 +69,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(63.60% 0.024 265.67);
   --muted-foreground: oklch(0.556 0 0);
+  --border: oklch(89.64% 0.021 264.46);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -123,10 +125,105 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ============================= */
+/*   Category Micro Animations   */
+/* ============================= */
+
+@keyframes cat-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cat-icon-bounce {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  30% {
+    transform: scale(1.18) rotate(-6deg);
+  }
+
+  60% {
+    transform: scale(0.95) rotate(3deg);
+  }
+
+  100% {
+    transform: scale(1.08) rotate(0deg);
+  }
+}
+
+@keyframes cat-arrow-slide {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(6px);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cat-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Card */
+.cat-card {
+  position: relative;
+  overflow: hidden;
+  animation: cat-fade-up 0.5s ease both;
+}
+
+.cat-card .ripple-el {
+  position: absolute;
+  border-radius: 9999px;
+  width: 120%;
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.cat-card:hover .ripple-el {
+  animation: cat-ripple 0.55s ease-out forwards;
+}
+
+.cat-card:hover .cat-icon {
+  animation: cat-icon-bounce 0.45s ease forwards;
+}
+
+.cat-card:hover .cat-arrow {
+  animation: cat-arrow-slide 0.5s ease infinite;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
