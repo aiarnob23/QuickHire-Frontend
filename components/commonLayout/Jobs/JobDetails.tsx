@@ -50,7 +50,7 @@ export default function JobDetailsComponent({ job }: JobDetailsProps) {
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-primary" /> {job.location}
               </span>
-              <span className="px-3 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider border border-primary/20">
+              <span className="flex justify-center items-center py-1 px-2 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider border border-primary/20">
                 {formatEnum(job.jobType)}
               </span>
             </div>

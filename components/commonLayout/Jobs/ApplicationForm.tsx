@@ -32,7 +32,7 @@ export default function ApplyForm({
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid },
+        formState: { errors },
         watch,
         setValue,
         reset,
@@ -45,7 +45,6 @@ export default function ApplyForm({
             isImmediatelyAvailable: false,
             totalYearsOfExperience: 0,
             noticePeriodInMonths: 0,
-            skills: "",
             expectedSalary: {
                 amount: 0,
                 currency: ExpectedSalaryCurrency.BDT,
@@ -55,7 +54,7 @@ export default function ApplyForm({
 
     const isImmediatelyAvailable = watch("isImmediatelyAvailable");
 
-   const onSubmit: SubmitHandler<ApplicationFormValues> = async (data) => {
+    const onSubmit: SubmitHandler<ApplicationFormValues> = async (data) => {
         setIsSubmitting(true);
 
         try {
@@ -64,10 +63,9 @@ export default function ApplyForm({
                 "_id" | "createdAt" | "updatedAt"
             > = {
                 ...data,
-                skills: data.skills
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean),
+                portfolioLink: data.portfolioLink || undefined,
+                linkedInProfileLink: data.linkedInProfileLink || undefined,
+                githubProfileLink: data.githubProfileLink || undefined,
                 noticePeriodInMonths: data.isImmediatelyAvailable
                     ? 0
                     : data.noticePeriodInMonths,
@@ -76,10 +74,7 @@ export default function ApplyForm({
             console.log("Submitting:", payload);
 
             await new Promise((r) => setTimeout(r, 1500));
-
             reset();
-        } catch (err) {
-            console.error(err);
         } finally {
             setIsSubmitting(false);
         }
@@ -101,7 +96,7 @@ export default function ApplyForm({
     );
 
     return (
-        <section className="mt-16 rounded-3xl border bg-background shadow-sm overflow-hidden">
+        <section className="mt-16 border-muted/20 bg-muted/10 rounded-3xl border shadow-sm overflow-hidden">
             <div className="px-8 py-6 border-b">
                 <h2 className="text-2xl font-bold">
                     Application Form
@@ -133,7 +128,7 @@ export default function ApplyForm({
                     <div>
                         <Label className="mb-2">
                             <Phone className="w-3 h-3 inline mr-1" />
-                            Phone Number <RequiredMark />
+                            Phone Number (Ex:01xxxxxxxxx) <RequiredMark />
                         </Label>
                         <Input {...register("phoneNumber")} />
                         <ErrorMessage message={errors.phoneNumber?.message} />
@@ -206,13 +201,13 @@ export default function ApplyForm({
 
                 {/* SKILLS & SALARY */}
                 <div className="grid md:grid-cols-2 gap-6">
-                    <div>
+                    {/* <div>
                         <Label className="mb-2">
                             Skills (comma separated) <RequiredMark />
                         </Label>
                         <Input {...register("skills")} />
                         <ErrorMessage message={errors.skills?.message} />
-                    </div>
+                    </div> */}
 
                     <div>
                         <Label className="mb-2">
@@ -268,7 +263,7 @@ export default function ApplyForm({
                     <Button
                         type="submit"
                         size="lg"
-                        disabled={!isValid || isSubmitting}
+                        disabled={isSubmitting}
                         className="w-full md:w-auto px-10"
                     >
                         {isSubmitting ? (

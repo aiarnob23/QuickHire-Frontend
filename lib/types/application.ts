@@ -32,7 +32,7 @@ export interface IApplication {
     totalYearsOfExperience: number;
     currentCompany?: string;
     currentDesignation?: string;
-    skills: string[];
+    skills?: string[];
 
     expectedSalary: {
         amount: number;

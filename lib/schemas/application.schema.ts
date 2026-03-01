@@ -1,66 +1,44 @@
 import { z } from "zod";
 import { ApplicationStatus, ExpectedSalaryCurrency } from "../types/application";
 
+/**
+ * Reusable optional URL field
+ */
+const optionalUrl = (label: string) =>
+    z
+        .string()
+        .trim()
+        .transform((val) => (val === "" ? undefined : val))
+        .optional()
+        .refine((val) => !val || /^https?:\/\/.+\..+/.test(val), {
+            message: `Invalid ${label} URL`,
+        });
 
 export const applicationSchema = z
     .object({
         jobId: z.string().min(1),
-
         name: z.string().min(2, "Full name is required"),
-
         email: z.string().email("Invalid email address"),
-
         phoneNumber: z
             .string()
-            .min(10, "Phone number must be at least 10 digits"),
-
+            .min(11, "Phone number must be at least 11 digits"),
         resumeLink: z.string().url("Resume must be a valid URL"),
-
-        portfolioLink: z
-            .string()
-            .url("Invalid portfolio URL")
-            .optional()
-            .or(z.literal("")),
-
-        linkedInProfileLink: z
-            .string()
-            .url("Invalid LinkedIn URL")
-            .optional()
-            .or(z.literal("")),
-
-        githubProfileLink: z
-            .string()
-            .url("Invalid GitHub URL")
-            .optional()
-            .or(z.literal("")),
-
+        portfolioLink: optionalUrl("portfolio"),
+        linkedInProfileLink: optionalUrl("LinkedIn"),
+        githubProfileLink: optionalUrl("GitHub"),
         totalYearsOfExperience: z
-            .coerce.number()
+            .number()
             .min(0, "Experience cannot be negative")
             .max(50),
         currentCompany: z.string().optional(),
         currentDesignation: z.string().optional(),
-
-        skills: z
-            .string()
-            .min(2, "At least one skill is required"),
-
         expectedSalary: z.object({
-            amount: z.coerce
-                .number()
-                .min(1, "Salary must be greater than 0"),
-
+            amount: z.number().min(1, "Salary must be greater than 0"),
             currency: z.nativeEnum(ExpectedSalaryCurrency),
         }),
         noticePeriodInMonths: z.number().min(0),
-
         isImmediatelyAvailable: z.boolean(),
-
-        coverNote: z
-            .string()
-            .max(1000)
-            .optional(),
-
+        coverNote: z.string().max(1000).optional(),
         status: z.nativeEnum(ApplicationStatus),
     })
     .superRefine((data, ctx) => {
