@@ -10,7 +10,7 @@ export default async function LatestJobsOpen() {
 
     return (
         <section
-            className=" min-h-screen bg-cover bg-no-repeat flex items-center"
+            className="py-12 mt-32 bg-cover bg-no-repeat flex items-center"
             style={{
                 backgroundImage: `url(${BG.src})`,
             }}
@@ -18,14 +18,14 @@ export default async function LatestJobsOpen() {
             <div className="container mx-auto px-6">
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-16">
+                <div className="flex items-center justify-between mb-14">
                     <h2 className="text-4xl md:text-5xl font-bold text-heading">
-                        Latest <span className="text-secondary">jobs</span>
+                        Latest <span className="text-secondary -ml-1.5">jobs Open</span>
                     </h2>
 
                     <Link
                         href="/jobs"
-                        className="flex items-center gap-2 text-primary hover:gap-3 transition-all"
+                        className="flex items-center gap-2 font-bold text-primary hover:gap-3 transition-all"
                     >
                         Show all jobs
                         <ArrowRight size={18} />

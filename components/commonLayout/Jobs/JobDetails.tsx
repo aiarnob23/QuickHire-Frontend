@@ -1,7 +1,6 @@
 import { IJob } from '@/lib/types/job';
 import { 
   MapPin, 
-  Briefcase, 
   Clock, 
   Globe, 
   Layers, 
@@ -39,7 +38,7 @@ export default function JobDetailsComponent({ job }: JobDetailsProps) {
               <Building2 className="w-10 h-10 text-muted-foreground" />
             </div>
           )}
-          <div className="space-y-2">
+          <div className="space-y-4">
             <h1 className="text-3xl md:text-4xl font-bold text-heading tracking-tight">
               {job.title}
             </h1>
@@ -58,9 +57,9 @@ export default function JobDetailsComponent({ job }: JobDetailsProps) {
         </div>
 
         {job.salaryRange && (
-          <div className="p-4 rounded-2xl bg-secondary/14 border border-border min-w-50 text-center md:text-right">
+          <div className="p-4 rounded-2xl bg-secondary/5 border border-border min-w-50 text-center md:text-right">
             <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest">Salary Range</p>
-            <div className="text-2xl font-bold text-heading mt-1">
+            <div className="text-xl font-bold text-heading mt-1">
               {job.salaryRange.currency} {job.salaryRange.min.toLocaleString()} - {job.salaryRange.max.toLocaleString()}
             </div>
           </div>
@@ -134,7 +133,7 @@ export default function JobDetailsComponent({ job }: JobDetailsProps) {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          <div className="p-6 rounded-2xl border border-border bg-muted/30 sticky top-8">
+          <div className="p-6 rounded-2xl border border-border bg-muted/20  top-8">
             <h4 className="font-bold text-heading mb-4">Job Categories</h4>
             <div className="flex flex-wrap gap-2 mb-6">
               {job.categories.map((cat) => (
@@ -153,13 +152,7 @@ export default function JobDetailsComponent({ job }: JobDetailsProps) {
                 Visit Company Website <Globe className="w-4 h-4" />
               </a>
             )}
-            
-            <div className="mt-6 pt-6 border-t border-border">
-              <div className="text-sm text-muted-foreground flex items-center gap-2">
-                <Briefcase className="w-4 h-4" />
-                {job.applicants?.length || 0} People Applied
-              </div>
-            </div>
+          
           </div>
         </div>
       </div>

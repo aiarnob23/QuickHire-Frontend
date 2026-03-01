@@ -32,7 +32,7 @@ export default function JobFilters() {
   const hasFilters = searchParams.get("search") || searchParams.get("category") || searchParams.get("location");
 
   return (
-    <div className={`p-6 bg-white shadow-sm border rounded-xl transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
+    <div className={`p-6 shadow-sm border border-border rounded-xl transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Search by Title */}
         <div>

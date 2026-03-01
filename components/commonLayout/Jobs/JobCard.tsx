@@ -24,7 +24,7 @@ export default function JobCard({ job }: JobCardProps) {
           height={48}
           className="w-12 h-12"
         />
-        <h5 className="border border-primary px-3 flex rounded-sm justify-center text-primary items-center">
+        <h5 className="  px-3 h-full py-1 border border-primary/50 rounded-xl text-primary ">
           {formatJobType(job.jobType)}
         </h5>
       </div>

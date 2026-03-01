@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { ArrowRight, Briefcase, Megaphone, Wallet, Monitor, Code2, BarChart3, Palette, Users } from 'lucide-react';
+import Link from 'next/link';
 
 const categories = [
     { title: 'Design', jobs: 235, icon: Palette },
@@ -16,7 +16,7 @@ const categories = [
 
 export default function ExploreByCategories() {
     return (
-        <section className="py-20">
+        <section className="mt-32">
             <div className="container mx-auto px-6">
 
                 {/* Header */}
@@ -25,13 +25,13 @@ export default function ExploreByCategories() {
                         Explore by <span className="text-secondary">category</span>
                     </h2>
 
-                    <Button
-                        variant="ghost"
-                        className="text-primary flex items-center gap-2"
+                    <Link
+                        href='/jobs'
+                        className="text-primary font-semibold flex items-center gap-2"
                     >
                         Show all jobs
                         <ArrowRight size={18} />
-                    </Button>
+                    </Link>
                 </div>
 
                 {/* Grid */}
@@ -40,7 +40,8 @@ export default function ExploreByCategories() {
                         const Icon = cat.icon;
 
                         return (
-                            <div
+                            <Link
+                                href="/jobs"
                                 key={index}
                                 className="cat-card group border border-border rounded-xl p-8 cursor-pointer
                                            transition-all duration-300
@@ -63,7 +64,7 @@ export default function ExploreByCategories() {
                                     <span>{cat.jobs} jobs available</span>
                                     <ArrowRight size={16} className="cat-arrow" />
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>

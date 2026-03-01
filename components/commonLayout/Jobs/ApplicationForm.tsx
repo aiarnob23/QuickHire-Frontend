@@ -18,7 +18,8 @@ import {
 } from "lucide-react";
 import { ApplicationFormValues, applicationSchema } from "@/lib/schemas/application.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApplicationStatus, ExpectedSalaryCurrency, IApplication } from "@/lib/types/application";
+import { ApplicationStatus, ExpectedSalaryCurrency } from "@/lib/types/application";
+import { createApplication } from "@/services/applicationServices";
 
 interface ApplyFormProps {
     jobId: string;
@@ -58,10 +59,7 @@ export default function ApplyForm({
         setIsSubmitting(true);
 
         try {
-            const payload: Omit<
-                IApplication,
-                "_id" | "createdAt" | "updatedAt"
-            > = {
+            const payload = {
                 ...data,
                 portfolioLink: data.portfolioLink || undefined,
                 linkedInProfileLink: data.linkedInProfileLink || undefined,
@@ -71,10 +69,11 @@ export default function ApplyForm({
                     : data.noticePeriodInMonths,
             };
 
-            console.log("Submitting:", payload);
+            await createApplication(payload);
 
-            await new Promise((r) => setTimeout(r, 1500));
             reset();
+        } catch (error: any) {
+            console.error(error.message);
         } finally {
             setIsSubmitting(false);
         }
@@ -96,7 +95,7 @@ export default function ApplyForm({
     );
 
     return (
-        <section className="mt-16 border-muted/20 bg-muted/10 rounded-3xl border shadow-sm overflow-hidden">
+        <section className="mt-16 my-12 border-muted/20 bg-muted/10 rounded-3xl border shadow-sm overflow-hidden">
             <div className="px-8 py-6 border-b">
                 <h2 className="text-2xl font-bold">
                     Application Form
@@ -113,7 +112,7 @@ export default function ApplyForm({
                         <Label className="mb-2">
                             Full Name <RequiredMark />
                         </Label>
-                        <Input {...register("name")} />
+                        <Input {...register("name")}  placeholder="Enter your full name" className="bg-card" />
                         <ErrorMessage message={errors.name?.message} />
                     </div>
 
@@ -121,27 +120,27 @@ export default function ApplyForm({
                         <Label className="mb-2">
                             Email <RequiredMark />
                         </Label>
-                        <Input type="email" {...register("email")} />
+                        <Input type="email" {...register("email")} placeholder="Your contact email" className="bg-card"/>
                         <ErrorMessage message={errors.email?.message} />
                     </div>
 
                     <div>
                         <Label className="mb-2">
                             <Phone className="w-3 h-3 inline mr-1" />
-                            Phone Number (Ex:01xxxxxxxxx) <RequiredMark />
+                            Phone Number <RequiredMark />
                         </Label>
-                        <Input {...register("phoneNumber")} />
+                        <Input {...register("phoneNumber")} placeholder="Ex. 01*********" className="bg-card"/>
                         <ErrorMessage message={errors.phoneNumber?.message} />
                     </div>
                 </div>
 
                 {/* LINKS */}
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-3 gap-6">
                     <div>
                         <Label className="mb-2">
                             Resume Link <RequiredMark />
                         </Label>
-                        <Input {...register("resumeLink")} />
+                        <Input {...register("resumeLink")} placeholder="Your resume link" className="bg-card" />
                         <ErrorMessage message={errors.resumeLink?.message} />
                     </div>
 
@@ -150,7 +149,7 @@ export default function ApplyForm({
                             <Linkedin className="w-3 h-3 inline mr-1" />
                             LinkedIn
                         </Label>
-                        <Input {...register("linkedInProfileLink")} />
+                        <Input {...register("linkedInProfileLink")} placeholder="Your linkedIn profile link"  className="bg-card"/>
                         <ErrorMessage message={errors.linkedInProfileLink?.message} />
                     </div>
 
@@ -159,7 +158,7 @@ export default function ApplyForm({
                             <Github className="w-3 h-3 inline mr-1" />
                             GitHub
                         </Label>
-                        <Input {...register("githubProfileLink")} />
+                        <Input {...register("githubProfileLink")} placeholder="Your github profile link" className="bg-card" />
                         <ErrorMessage message={errors.githubProfileLink?.message} />
                     </div>
 
@@ -168,7 +167,7 @@ export default function ApplyForm({
                             <Globe className="w-3 h-3 inline mr-1" />
                             Portfolio
                         </Label>
-                        <Input {...register("portfolioLink")} />
+                        <Input {...register("portfolioLink")} placeholder="Your personal website" className="bg-card"/>
                         <ErrorMessage message={errors.portfolioLink?.message} />
                     </div>
                 </div>
@@ -180,6 +179,7 @@ export default function ApplyForm({
                             Experience (Years) <RequiredMark />
                         </Label>
                         <Input
+                         className="bg-card"
                             type="number"
                             {...register("totalYearsOfExperience", {
                                 valueAsNumber: true,
@@ -190,12 +190,12 @@ export default function ApplyForm({
 
                     <div>
                         <Label className="mb-2">Current Company</Label>
-                        <Input {...register("currentCompany")} />
+                        <Input {...register("currentCompany")}  className="bg-card" />
                     </div>
 
                     <div>
                         <Label className="mb-2">Current Designation</Label>
-                        <Input {...register("currentDesignation")} />
+                        <Input {...register("currentDesignation")}  className="bg-card" />
                     </div>
                 </div>
 
@@ -214,6 +214,7 @@ export default function ApplyForm({
                             Expected Salary (BDT) <RequiredMark />
                         </Label>
                         <Input
+                         className="bg-card"
                             type="number"
                             {...register("expectedSalary.amount", {
                                 valueAsNumber: true,
@@ -232,6 +233,7 @@ export default function ApplyForm({
                         </Label>
                         <Input
                             type="number"
+                             className="bg-card"
                             disabled={isImmediatelyAvailable}
                             {...register("noticePeriodInMonths", {
                                 valueAsNumber: true,
@@ -242,6 +244,7 @@ export default function ApplyForm({
 
                     <div className="flex items-center space-x-2">
                         <Checkbox
+                         className="bg-card"
                             checked={isImmediatelyAvailable}
                             onCheckedChange={(checked) =>
                                 setValue("isImmediatelyAvailable", !!checked)
@@ -254,7 +257,7 @@ export default function ApplyForm({
                 {/* COVER NOTE */}
                 <div>
                     <Label className="mb-2">Cover Note</Label>
-                    <Textarea {...register("coverNote")} />
+                    <Textarea {...register("coverNote")}  className="bg-card"/>
                     <ErrorMessage message={errors.coverNote?.message} />
                 </div>
 
