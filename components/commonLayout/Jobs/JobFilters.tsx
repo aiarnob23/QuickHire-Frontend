@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
+import { X } from "lucide-react";
 
 export default function JobFilters() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function JobFilters() {
 
   function handleSearch(term: string, key: string) {
     const params = new URLSearchParams(searchParams);
+
     if (term) {
       params.set(key, term);
     } else {
@@ -22,35 +24,48 @@ export default function JobFilters() {
     });
   }
 
-  // clear filters
   function handleClearFilters() {
     startTransition(() => {
       router.push(pathname);
     });
   }
 
-  const hasFilters = searchParams.get("search") || searchParams.get("category") || searchParams.get("location");
+  const hasFilters =
+    searchParams.get("search") ||
+    searchParams.get("category") ||
+    searchParams.get("location");
+
+  const inputStyle =
+    "w-full h-11 px-4 rounded-lg border border-border bg-background text-foreground text-sm outline-none transition-all focus:ring-2 focus:ring-primary/40 focus:border-primary";
 
   return (
-    <div className={`p-6 shadow-sm border border-border rounded-xl transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Search by Title */}
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700">Search Job</label>
+    <div
+      className={`p-6 bg-card border border-border rounded-xl shadow-sm transition-opacity ${
+        isPending ? "opacity-60" : "opacity-100"
+      }`}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* Search */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-muted-foreground">
+            Search Job
+          </label>
           <input
             type="text"
-            placeholder="e.g. Frontend Developer"
-            className="w-full border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            placeholder="Frontend Developer"
+            className={inputStyle}
             onChange={(e) => handleSearch(e.target.value, "search")}
             value={searchParams.get("search") || ""}
           />
         </div>
 
-        {/* Filter by Category */}
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700">Category</label>
+        {/* Category */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-muted-foreground">
+            Category
+          </label>
           <select
-            className="w-full border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            className={`${inputStyle} appearance-none`}
             onChange={(e) => handleSearch(e.target.value, "category")}
             value={searchParams.get("category") || ""}
           >
@@ -61,30 +76,30 @@ export default function JobFilters() {
           </select>
         </div>
 
-        {/* Filter by Location */}
-        <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700">Location</label>
+        {/* Location */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-muted-foreground">
+            Location
+          </label>
           <input
             type="text"
-            placeholder="e.g. Dhaka"
-            className="w-full border rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            placeholder="Dhaka"
+            className={inputStyle}
             onChange={(e) => handleSearch(e.target.value, "location")}
             value={searchParams.get("location") || ""}
           />
         </div>
       </div>
 
-      {/* Clear Filter Button */}
+      {/* Clear Button */}
       {hasFilters && (
-        <div className="mt-4 flex justify-end">
+        <div className="mt-6 flex justify-end">
           <button
             onClick={handleClearFilters}
-            className="text-sm font-medium text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-destructive hover:opacity-80 transition-opacity"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-            </svg>
-            Clear All Filters
+            <X size={16} />
+            Clear Filters
           </button>
         </div>
       )}

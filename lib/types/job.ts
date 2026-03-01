@@ -44,7 +44,7 @@ export interface IJob {
     description: string;
     requirements: string[];
     responsibilities?: string[];
-    salaryRange?: {
+    salaryRange: {
         min: number;
         max: number;
         currency: SalaryCurrency;

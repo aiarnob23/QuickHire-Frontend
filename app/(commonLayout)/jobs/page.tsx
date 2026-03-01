@@ -23,7 +23,7 @@ export default async function JobListings({ searchParams }: PageProps) {
     <div className="container mx-auto my-20 px-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-5xl font-bold text-heading">Job <span className="text-secondary">Listings</span></h1>
+        <h1 className="text-xl md:text-5xl font-bold text-heading">Job <span className="text-secondary">Listings</span></h1>
       </div>
 
       {/* Filtering Section */}

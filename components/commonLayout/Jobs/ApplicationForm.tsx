@@ -72,8 +72,19 @@ export default function ApplyForm({
             await createApplication(payload);
 
             reset();
-        } catch (error: any) {
-            console.error(error.message);
+        } catch (error: unknown) {
+            const err = error as {
+                response?: { data?: { message?: string } }
+                message?: string
+            }
+
+            const message =
+                err.response?.data?.message ||
+                err.message ||
+                "Something went wrong"
+
+            console.error(message)
+
         } finally {
             setIsSubmitting(false);
         }
@@ -112,7 +123,7 @@ export default function ApplyForm({
                         <Label className="mb-2">
                             Full Name <RequiredMark />
                         </Label>
-                        <Input {...register("name")}  placeholder="Enter your full name" className="bg-card" />
+                        <Input {...register("name")} placeholder="Enter your full name" className="bg-card" />
                         <ErrorMessage message={errors.name?.message} />
                     </div>
 
@@ -120,7 +131,7 @@ export default function ApplyForm({
                         <Label className="mb-2">
                             Email <RequiredMark />
                         </Label>
-                        <Input type="email" {...register("email")} placeholder="Your contact email" className="bg-card"/>
+                        <Input type="email" {...register("email")} placeholder="Your contact email" className="bg-card" />
                         <ErrorMessage message={errors.email?.message} />
                     </div>
 
@@ -129,7 +140,7 @@ export default function ApplyForm({
                             <Phone className="w-3 h-3 inline mr-1" />
                             Phone Number <RequiredMark />
                         </Label>
-                        <Input {...register("phoneNumber")} placeholder="Ex. 01*********" className="bg-card"/>
+                        <Input {...register("phoneNumber")} placeholder="Ex. 01*********" className="bg-card" />
                         <ErrorMessage message={errors.phoneNumber?.message} />
                     </div>
                 </div>
@@ -149,7 +160,7 @@ export default function ApplyForm({
                             <Linkedin className="w-3 h-3 inline mr-1" />
                             LinkedIn
                         </Label>
-                        <Input {...register("linkedInProfileLink")} placeholder="Your linkedIn profile link"  className="bg-card"/>
+                        <Input {...register("linkedInProfileLink")} placeholder="Your linkedIn profile link" className="bg-card" />
                         <ErrorMessage message={errors.linkedInProfileLink?.message} />
                     </div>
 
@@ -167,7 +178,7 @@ export default function ApplyForm({
                             <Globe className="w-3 h-3 inline mr-1" />
                             Portfolio
                         </Label>
-                        <Input {...register("portfolioLink")} placeholder="Your personal website" className="bg-card"/>
+                        <Input {...register("portfolioLink")} placeholder="Your personal website" className="bg-card" />
                         <ErrorMessage message={errors.portfolioLink?.message} />
                     </div>
                 </div>
@@ -179,7 +190,7 @@ export default function ApplyForm({
                             Experience (Years) <RequiredMark />
                         </Label>
                         <Input
-                         className="bg-card"
+                            className="bg-card"
                             type="number"
                             {...register("totalYearsOfExperience", {
                                 valueAsNumber: true,
@@ -190,12 +201,12 @@ export default function ApplyForm({
 
                     <div>
                         <Label className="mb-2">Current Company</Label>
-                        <Input {...register("currentCompany")}  className="bg-card" />
+                        <Input {...register("currentCompany")} className="bg-card" />
                     </div>
 
                     <div>
                         <Label className="mb-2">Current Designation</Label>
-                        <Input {...register("currentDesignation")}  className="bg-card" />
+                        <Input {...register("currentDesignation")} className="bg-card" />
                     </div>
                 </div>
 
@@ -214,7 +225,7 @@ export default function ApplyForm({
                             Expected Salary (BDT) <RequiredMark />
                         </Label>
                         <Input
-                         className="bg-card"
+                            className="bg-card"
                             type="number"
                             {...register("expectedSalary.amount", {
                                 valueAsNumber: true,
@@ -233,7 +244,7 @@ export default function ApplyForm({
                         </Label>
                         <Input
                             type="number"
-                             className="bg-card"
+                            className="bg-card"
                             disabled={isImmediatelyAvailable}
                             {...register("noticePeriodInMonths", {
                                 valueAsNumber: true,
@@ -244,7 +255,7 @@ export default function ApplyForm({
 
                     <div className="flex items-center space-x-2">
                         <Checkbox
-                         className="bg-card"
+                            className="bg-card"
                             checked={isImmediatelyAvailable}
                             onCheckedChange={(checked) =>
                                 setValue("isImmediatelyAvailable", !!checked)
@@ -257,7 +268,7 @@ export default function ApplyForm({
                 {/* COVER NOTE */}
                 <div>
                     <Label className="mb-2">Cover Note</Label>
-                    <Textarea {...register("coverNote")}  className="bg-card"/>
+                    <Textarea {...register("coverNote")} className="bg-card" />
                     <ErrorMessage message={errors.coverNote?.message} />
                 </div>
 

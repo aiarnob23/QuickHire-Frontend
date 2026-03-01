@@ -1,5 +1,6 @@
 'use client';
 import { type SVGProps } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import dynamic from "next/dynamic";
 
 const LogoCarousel = dynamic(
@@ -141,13 +142,14 @@ const allLogos = [
 ];
 
 export function TrustedBy({ title }: { title: string }) {
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   return (
-    <div className="mt-32">
+    <div className="mt-12 md:mt-32">
       <h2 className="container mx-auto text-xl pl-6 text-muted">
         {title}
       </h2>
       <div className="w-full bg-card py-5 text-muted">
-        <LogoCarousel columnCount={5} logos={allLogos} />
+        <LogoCarousel columnCount={isMobile ? 3 : 5} logos={allLogos} />
       </div>
     </div>
   );

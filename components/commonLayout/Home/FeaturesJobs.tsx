@@ -14,13 +14,13 @@ export default async function FeaturedJobsSection() {
 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-14">
-                    <h2 className="text-4xl  md:text-5xl  font-bold text-heading">
+                    <h2 className="text-xl  md:text-5xl  font-bold text-heading">
                         Featured <span className="text-secondary -ml-1.5">jobs</span>
                     </h2>
 
                     <Link
                         href="/jobs"
-                        className="flex items-center gap-2 font-bold text-primary hover:gap-3 transition-all"
+                        className="flex text-sm md:text-xl items-center gap-2 font-bold text-primary hover:gap-3 transition-all"
                     >
                         Show all jobs
                         <ArrowRight size={18} />
@@ -30,7 +30,7 @@ export default async function FeaturedJobsSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
                     {jobs.map((job: IJob) => (
-                        <><JobCard job={job} /></>
+                        <JobCard key={job._id} job={job} />
                     ))}
                 </div>
 
