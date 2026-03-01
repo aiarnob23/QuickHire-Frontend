@@ -1,6 +1,11 @@
 'use client';
 import  { type SVGProps } from 'react';
-import { LogoCarousel } from '@/components/ui/logo-carousel';
+import dynamic from "next/dynamic";
+
+const LogoCarousel = dynamic(
+  () => import("@/components/ui/logo-carousel").then(mod => mod.LogoCarousel),
+  { ssr: false }
+);
 
 
 const VodaphoneIcon = (props:SVGProps<SVGSVGElement>) => (
