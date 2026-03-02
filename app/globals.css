@@ -7,7 +7,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-epilogue);
+  --font-clash: var(--font-clash);
   --font-mono: var(--font-geist-mono);
   --color-heading: var(--heading);
   --color-subheading: var(--subheading);
@@ -65,14 +66,14 @@
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --footer-bg:oklch(0.2618 0.023 270.37);
+  --footer-bg: oklch(0.2618 0.023 270.37);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(48.94% 0.230 275.42);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(70.10% 0.164 248.57);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(63.60% 0.024 265.67);
-  --subheading:oklch(47.03% 0.035 264.16);
+  --subheading: oklch(47.03% 0.035 264.16);
   --muted-foreground: oklch(0.556 0 0);
   --border: oklch(89.64% 0.021 264.46);
   --accent: oklch(0.97 0 0);
@@ -230,6 +231,20 @@
   }
 
   body {
+    font-family: var(--font-epilogue), sans-serif;
     @apply bg-background text-foreground;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-clash), sans-serif;
+  }
+}
+
+.font-clash {
+  font-family: var(--font-clash), sans-serif;
 }
